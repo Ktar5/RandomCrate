@@ -4,15 +4,15 @@ import org.bukkit.Location;
 
 public class ChestWrapper {
 
-	private String type;
+	private ChestType type;
 	private Location location;
 	private boolean inUse;
 
-	public ChestWrapper(Location location, String type){
+	public ChestWrapper(Location location, ChestType type){
 
 	}
 
-	public 
+
 
 
 }

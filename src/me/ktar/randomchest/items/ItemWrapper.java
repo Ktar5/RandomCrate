@@ -6,20 +6,20 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemWrapper {
 
-	private ItemFactory item;
-	//private int chance;
+	private final ItemFactory item;
+	private final String name;
 
-	public ItemWrapper(ItemFactory item/*, int chance*/){
+	public ItemWrapper(ItemFactory item, String name){
+		this.name = name;
 		this.item = item;
-		//this.chance = chance;
 	}
 
 	public ItemStack getItem(){
 		return item.getItemStack();
 	}
 
-	//public int getChance(){
-	//	return chance;
-	//}
+	public String getName(){
+		return name;
+	}
 
 }
