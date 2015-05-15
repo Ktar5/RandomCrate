@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 public class ChestUtil {
 
-	public void changeChestState(Location loc, boolean open, Player p) {
+	public static void changeChestState(Location loc, boolean open, Player p) {
 		p.playNote(loc, Instrument.BASS_DRUM, new Note(open ? 1 : 0));
 	}
 

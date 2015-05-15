@@ -1,6 +1,7 @@
 package me.ktar.randomchest.items;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 public class ChestWrapper {
 
@@ -10,6 +11,9 @@ public class ChestWrapper {
 
 	public ChestWrapper(Location location, ChestType type){
 
+	}
+
+	public ItemStack[] getRandomItems(){
 	}
 
 
