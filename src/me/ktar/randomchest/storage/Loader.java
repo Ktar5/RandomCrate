@@ -10,8 +10,8 @@ import me.ktar.randomchest.items.ChestWrapper;
 
 public class Loader {
 
-	private List<ChestWrapper> chests = new ArrayList<>();
-	private List<ChestType> chestTypes = new ArrayList<>();
+	private List<ChestWrapper> chests = new ArrayList<>(); //Store the chests in a list, they have the location and reference the chest type
+	//private List<ChestType> chestTypes = new ArrayList<>(); //Store the types of chests for reference by the chest wrapperrrr..
 	private Map<String, String> messages = new HashMap<>();
 
 }
