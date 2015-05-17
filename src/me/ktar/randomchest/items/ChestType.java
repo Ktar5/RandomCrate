@@ -6,7 +6,6 @@ import me.ktar.randomchest.utils.RandomUtil;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +26,12 @@ public class ChestType {
 
 	protected ItemStack[] getRandomItems(){
 		int items = RandomUtil.random().nextInt((maxItems - minItems) + 1) + minItems;
-        List<ItemFactory> itemz = new ArrayList<>();
+        List<ItemStack> itemz = new ArrayList<>();
         while(items > 0){
-             this.items.next();
+			itemz.add(this.items.next().getItemStack());
+			items--;
 		}
+		return itemz.toArray(new ItemStack[itemz.size()]);
 	}
 
 

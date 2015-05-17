@@ -8,7 +8,7 @@ public class RandomChest extends JavaPlugin{
 
 	private static RandomChest instance = null;
 
-	public CustomConfig chests, items, messages;
+	public static CustomConfig chests, items, messages, chesttypes;
 
 	@Override
 	public void onLoad(){
@@ -20,6 +20,7 @@ public class RandomChest extends JavaPlugin{
 		chests = new CustomConfig(getDataFolder(), "chests");
 		items = new CustomConfig(getDataFolder(), "items");
 		messages = new CustomConfig(getDataFolder(), "messages");
+		chesttypes = new CustomConfig(getDataFolder(), "chesttypes");
 	}
 
 	@Override
