@@ -4,14 +4,13 @@ import me.ktar.randomchest.RandomChest;
 import me.ktar.randomchest.items.ChestType;
 import me.ktar.randomchest.items.ChestWrapper;
 import me.ktar.randomchest.utils.ItemFactory;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Loader {
@@ -19,25 +18,47 @@ public class Loader {
 	private final Map<Location, ChestWrapper> chests = new HashMap<>(); //Store the chests in a list, they have the location and reference the chest type
 	private final Map<String, String> messages = new HashMap<>();
 
-	public void loadChests(){
 
+    public void load(){
+        loadChests();
+        //loadMessages();
+    }
+
+	private void loadChests(){
+        Map<String, ChestType> types = loadChestTypes();
+        FileConfiguration config = RandomChest.chests.getConfig();
+        for(String type : config.getKeys(false)){
+            for(String locationString : config.getStringList(type)){
+                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(type.toUpperCase())));
+            }
+        }
 	}
 
-	public Map<String, ChestType> loadChestTypes(){
+	private Location stringToLoc(String input){
+		String[] worldxyz = input.split(",");
+		return new Location(Bukkit.getWorld(worldxyz[0]),
+				Double.valueOf(worldxyz[1]),
+				Double.valueOf(worldxyz[2]),
+				Double.valueOf(worldxyz[3]));
+	}
+
+    private Map<String, ChestType> loadChestTypes(){
 		Map<String, ItemFactory> items = loadItems();
 		Map<String, ChestType> types = new HashMap<>();
 
 		FileConfiguration config = RandomChest.chesttypes.getConfig();
 		for(String name : config.getKeys(false)){
 			ConfigurationSection chestSection = config.getConfigurationSection(name);
-
-			for(String itemName : chestSection.getConfigurationSection().getKeys(false)){
-				ChestTypenew ChestType();
+			ChestType type = new ChestType(chestSection.getInt("min"), chestSection.getInt("max"));
+			for(String itemName : chestSection.getConfigurationSection("items").getKeys(false)){
+				type.add(items.get(itemName.toUpperCase()), chestSection.getInt("items." + itemName));
 			}
+			types.put(name.toUpperCase(), type);
 		}
+		return types;
 	}
 
-	public Map<String, ItemFactory> loadItems(){
+    private Map<String, ItemFactory> loadItems(){
 		Map<String, ItemFactory> items = new HashMap<>();
 		FileConfiguration config = RandomChest.items.getConfig();
 		for(String name : config.getKeys(false)){

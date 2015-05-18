@@ -1,0 +1,5 @@
+name: RandomCrates
+author: Ktar5
+version: 0.7.0
+main: me.ktar.randomchest.RandomChest
+commands:

@@ -1,18 +1,32 @@
 package me.ktar.randomchest.items;
 
-import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ChestWrapper {
 
 	private ChestType type;
-	private boolean inUse;
+	private Player inUse;
 
-	public ChestWrapper(Location location, ChestType type){
-
+	public ChestWrapper(ChestType type){
+		this.type = type;
+		inUse = null;
 	}
 
 	public ItemStack[] getRandomItems(){
+		return type.getRandomItems();
+	}
+
+	public boolean getInUse(){
+		return inUse != null;
+	}
+
+	public Player getUser(){
+		return inUse;
+	}
+
+	public void stopUse(){
+		this.inUse = null;
 	}
 
 
