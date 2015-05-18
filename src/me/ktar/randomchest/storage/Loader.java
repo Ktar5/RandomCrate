@@ -4,6 +4,7 @@ import me.ktar.randomchest.RandomChest;
 import me.ktar.randomchest.items.ChestType;
 import me.ktar.randomchest.items.ChestWrapper;
 import me.ktar.randomchest.utils.ItemFactory;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,16 +16,25 @@ import java.util.Map;
 
 public class Loader {
 
-	private List<ChestWrapper> chests = new ArrayList<>(); //Store the chests in a list, they have the location and reference the chest type
-	//private List<ChestType> chestTypes = new ArrayList<>(); //Store the types of chests for reference by the chest wrapperrrr..
-	private Map<String, String> messages = new HashMap<>();
+	private final Map<Location, ChestWrapper> chests = new HashMap<>(); //Store the chests in a list, they have the location and reference the chest type
+	private final Map<String, String> messages = new HashMap<>();
 
 	public void loadChests(){
 
 	}
 
-	public List<ChestType> loadChestTypes(){
+	public Map<String, ChestType> loadChestTypes(){
+		Map<String, ItemFactory> items = loadItems();
+		Map<String, ChestType> types = new HashMap<>();
 
+		FileConfiguration config = RandomChest.chesttypes.getConfig();
+		for(String name : config.getKeys(false)){
+			ConfigurationSection chestSection = config.getConfigurationSection(name);
+
+			for(String itemName : chestSection.getConfigurationSection().getKeys(false)){
+				ChestTypenew ChestType();
+			}
+		}
 	}
 
 	public Map<String, ItemFactory> loadItems(){
@@ -32,10 +42,14 @@ public class Loader {
 		FileConfiguration config = RandomChest.items.getConfig();
 		for(String name : config.getKeys(false)){
 			ConfigurationSection itemSection = config.getConfigurationSection(name);
-			Material itemMaterial = Material.valueOf(itemSection.getString("material").toUpperCase());
-			items.put(name.toUpperCase(), new ItemFactory(itemMaterial)
-					.setDisplayName(itemSection.))
+			items.put(name.toUpperCase(), new ItemFactory(Material.valueOf(itemSection.getString("material").toUpperCase()))
+					.setDisplayName(itemSection.getString("title"))
+					.setAmount(itemSection.getInt("amount"))
+					.setDurability(itemSection.getInt("meta"))
+					.setLore(itemSection.getStringList("lore")));
 		}
+		return items;
 	}
+
 
 }

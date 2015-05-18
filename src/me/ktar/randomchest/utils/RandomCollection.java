@@ -1,6 +1,5 @@
 package me.ktar.randomchest.utils;
 
-import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
@@ -10,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by carter on 5/15/2015.
  */
 public class RandomCollection<E> {
-    private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
+    private final NavigableMap<Double, E> map = new TreeMap<>();
     private final ThreadLocalRandom random;
     private double total = 0;
 
