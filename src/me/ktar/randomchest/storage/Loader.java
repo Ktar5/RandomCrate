@@ -24,6 +24,14 @@ public class Loader {
         //loadMessages();
     }
 
+    public
+
+    private void loadMessages(){
+        for(){
+
+        }
+    }
+
 	private void loadChests(){
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
