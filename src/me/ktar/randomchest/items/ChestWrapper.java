@@ -1,5 +1,6 @@
 package me.ktar.randomchest.items;
 
+import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,13 +11,11 @@ public class ChestWrapper {
 	private Player inUse;
     private ArmorStand stand;
 
+    private static final int CYCLE_TICKS = 60;
+
 	public ChestWrapper(ChestType type){
 		this.type = type;
 		inUse = null;
-	}
-
-	public ItemStack[] getRandomItems(){
-		return type.getRandomItems();
 	}
 
 	public boolean getInUse(){
@@ -27,12 +26,26 @@ public class ChestWrapper {
 		return inUse;
 	}
 
-	public void stopUse(){
+	public void forceStopUse(){
 		this.inUse = null;
 	}
 
-    public void cycleItems(){
+    public void use(Player player){
+        this.inUse = player;
+        cycleItems();
+        ItemStack[] items = this.type.getRandomItems();
+        if(!player.isOnline()){inUse = null; return;}
+        if(InventoryUtil.howManyFreeSpaces(player) >= items.length){
+            player.sendMessage("Your ");
+            ItemStack st;
+            st.getItemMeta().spigot().
+        }
+    }
 
+    private void cycleItems(){
+        /*
+        ......shhh
+         */
     }
 
 

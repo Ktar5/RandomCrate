@@ -1,7 +1,6 @@
 package me.ktar.randomchest;
 
 import me.ktar.randomchest.storage.CustomConfig;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RandomChest extends JavaPlugin{

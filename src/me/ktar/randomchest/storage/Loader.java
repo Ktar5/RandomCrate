@@ -7,6 +7,7 @@ import me.ktar.randomchest.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -15,21 +16,16 @@ import java.util.Map;
 
 public class Loader {
 
-	private final Map<Location, ChestWrapper> chests = new HashMap<>(); //Store the chests in a list, they have the location and reference the chest type
-	private final Map<String, String> messages = new HashMap<>();
+	private static final Map<Location, ChestWrapper> chests = new HashMap<>(); //Store the chests in a list, they have the location and reference the chest type
+	private static final Map<String, String> messages = new HashMap<>();
 
+
+    public static ChestWrapper getChestWrapper(Block block){
+        return chests.get(block.getLocation());
+    }
 
     public void load(){
         loadChests();
-        //loadMessages();
-    }
-
-    public
-
-    private void loadMessages(){
-        for(){
-
-        }
     }
 
 	private void loadChests(){
