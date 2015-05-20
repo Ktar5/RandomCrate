@@ -27,4 +27,13 @@ public class KeyHandler {
         return false;
     }
 
+    public boolean isKey(ItemStack stack, ChestType type){
+        if(stack != null){
+            AttributeStorage storage = AttributeStorage.newTarget(stack, ID);
+            String name = storage.getData(null);
+            return name.equalsIgnoreCase(type.getName());
+        }
+        return false;
+    }
+
 }

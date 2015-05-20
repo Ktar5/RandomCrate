@@ -18,14 +18,25 @@ public class Loader {
 
 	private static final Map<Location, ChestWrapper> chests = new HashMap<>(); //Store the chests in a list, they have the location and reference the chest type
 	private static final Map<String, String> messages = new HashMap<>();
+    private static final Map<String, ChestType> types = new HashMap<>();
 
 
     public static ChestWrapper getChestWrapper(Block block){
         return chests.get(block.getLocation());
     }
 
+    public static void removeChestWrapper(Location location){
+        if(chests.containsKey(location))
+            chests.remove(location);
+    }
+
+    public static void addChest(Block block, ChestType type){
+        chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
+    }
+
     public void load(){
         chests.clear();
+        types.clear();
 		messages.clear();
 		loadChests();
     }
@@ -34,9 +45,8 @@ public class Loader {
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
         for(String type : config.getKeys(false)){
-            for(String locationString : config.getStringList(type)){
+            for(String locationString : config.getStringList(type))
                 chests.put(stringToLoc(locationString), new ChestWrapper(types.get(type.toUpperCase()), stringToLoc(locationString)));
-            }
         }
 	}
 
@@ -50,15 +60,12 @@ public class Loader {
 
     private Map<String, ChestType> loadChestTypes(){
 		Map<String, ItemFactory> items = loadItems();
-		Map<String, ChestType> types = new HashMap<>();
-
 		FileConfiguration config = RandomChest.chesttypes.getConfig();
 		for(String name : config.getKeys(false)){
 			ConfigurationSection chestSection = config.getConfigurationSection(name);
 			ChestType type = new ChestType(chestSection.getInt("min"), chestSection.getInt("max"), name.toUpperCase());
-			for(String itemName : chestSection.getConfigurationSection("items").getKeys(false)){
+			for(String itemName : chestSection.getConfigurationSection("items").getKeys(false))
 				type.add(items.get(itemName.toUpperCase()), chestSection.getInt("items." + itemName));
-			}
 			types.put(name.toUpperCase(), type);
 		}
 		return types;

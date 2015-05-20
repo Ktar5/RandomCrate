@@ -3,7 +3,6 @@ package me.ktar.randomchest.items;
 import me.ktar.randomchest.utils.ChestUtil;
 import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,7 +11,7 @@ public class ChestWrapper {
 	private ChestType type;
 	private Player inUse;
     private Location location;
-    private ArmorStand stand;
+    //private ArmorStand stand;
 
     private static final int CYCLE_TICKS = 60;
 
@@ -41,9 +40,16 @@ public class ChestWrapper {
         if(!player.isOnline()){inUse = null; return;}
         if(InventoryUtil.howManyFreeSpaces(player) < items.length){
             player.sendMessage("Your inventory is too full");
-            inUse = null; return;
-        }else
-        ChestUtil.changeChestState(location, false, player);
+            inUse = null;
+        }else {
+            player.getInventory().addItem(items);
+            player.updateInventory();
+            ChestUtil.changeChestState(location, false, player);
+        }
+    }
+
+    public Location getLocation(){
+        return this.location.getBlock().getLocation();
     }
 
     private void cycleItems(){

@@ -1,6 +1,5 @@
 package me.ktar.randomchest.keys;
 
-import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
@@ -8,7 +7,6 @@ import com.google.common.collect.Maps;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
@@ -20,7 +18,7 @@ public class Attributes {
         ADD_PERCENTAGE(2);
         private int id;
 
-        private Operation(int id) {
+        Operation(int id) {
             this.id = id;
         }
 
@@ -274,17 +272,7 @@ public class Attributes {
 
     // We can't make Attributes itself iterable without splitting it up into separate classes
     public Iterable<Attribute> values() {
-        return new Iterable<Attribute>() {
-            @Override
-            public Iterator<Attribute> iterator() {
-                return Iterators.transform(attributes.iterator(),
-                        new Function<Object, Attribute>() {
-                            @Override
-                            public Attribute apply(@Nullable Object element) {
-                                return new Attribute((NbtFactory.NbtCompound) element);
-                            }
-                        });
-            }
-        };
+        return () -> Iterators.transform(attributes.iterator(),
+                element -> new Attribute((NbtFactory.NbtCompound) element));
     }
 }
