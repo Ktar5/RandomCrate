@@ -25,7 +25,9 @@ public class Loader {
     }
 
     public void load(){
-        loadChests();
+        chests.clear();
+		messages.clear();
+		loadChests();
     }
 
 	private void loadChests(){
@@ -33,7 +35,7 @@ public class Loader {
         FileConfiguration config = RandomChest.chests.getConfig();
         for(String type : config.getKeys(false)){
             for(String locationString : config.getStringList(type)){
-                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(type.toUpperCase())));
+                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(type.toUpperCase()), stringToLoc(locationString)));
             }
         }
 	}
@@ -53,7 +55,7 @@ public class Loader {
 		FileConfiguration config = RandomChest.chesttypes.getConfig();
 		for(String name : config.getKeys(false)){
 			ConfigurationSection chestSection = config.getConfigurationSection(name);
-			ChestType type = new ChestType(chestSection.getInt("min"), chestSection.getInt("max"));
+			ChestType type = new ChestType(chestSection.getInt("min"), chestSection.getInt("max"), name.toUpperCase());
 			for(String itemName : chestSection.getConfigurationSection("items").getKeys(false)){
 				type.add(items.get(itemName.toUpperCase()), chestSection.getInt("items." + itemName));
 			}
@@ -76,5 +78,8 @@ public class Loader {
 		return items;
 	}
 
-
+	public static void unload(){
+		for(String string : RandomChest.chests.getConfig().getKeys(false))
+			RandomChest.chests.set(string, null);
+	}
 }

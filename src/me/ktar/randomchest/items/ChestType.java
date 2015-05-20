@@ -12,11 +12,17 @@ public class ChestType {
 
 	private RandomCollection<ItemFactory> items;
 	private final int minItems, maxItems;
+	private final String name;
 
-	public ChestType(int minItems, int maxItems) {
+	public ChestType(int minItems, int maxItems, String name) {
 		this.items = new RandomCollection<>(RandomUtil.random());
 		this.minItems = minItems;
+		this.name = name;
 		this.maxItems = maxItems;
+	}
+
+	public String getName(){
+		return this.name;
 	}
 
 	protected ItemStack[] getRandomItems(){
