@@ -1,6 +1,9 @@
 package me.ktar.randomchest;
 
+import me.ktar.randomchest.listeners.CommandListener;
+import me.ktar.randomchest.listeners.InteractListener;
 import me.ktar.randomchest.storage.CustomConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RandomChest extends JavaPlugin{
@@ -20,7 +23,10 @@ public class RandomChest extends JavaPlugin{
 		items = new CustomConfig(getDataFolder(), "items");
 		messages = new CustomConfig(getDataFolder(), "messages");
 		chesttypes = new CustomConfig(getDataFolder(), "chesttypes");
-	}
+
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        getCommand("rc").setExecutor(new CommandListener());
+    }
 
 	@Override
 	public void onDisable(){

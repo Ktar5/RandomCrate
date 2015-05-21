@@ -17,7 +17,7 @@ public class KeyHandler {
     public static final UUID ID = UUID.fromString("b1a9409d-f668-4443-ab56-9c79b538f397");
     public static final ItemStack key = new ItemFactory(Material.TRIPWIRE_HOOK).setAmount(1).setDisplayName("Key To Your Chest").getItemStack();
 
-    public boolean giveKey(Player player, ChestType type){
+    public static boolean giveKey(Player player, ChestType type){
         if(InventoryUtil.howManyFreeSpaces(player) > 0){
             AttributeStorage storage = AttributeStorage.newTarget(key.clone(), ID);
             storage.setData(type.getName());
@@ -27,7 +27,7 @@ public class KeyHandler {
         return false;
     }
 
-    public boolean isKey(ItemStack stack, ChestType type){
+    public static boolean isKey(ItemStack stack, ChestType type){
         if(stack != null){
             AttributeStorage storage = AttributeStorage.newTarget(stack, ID);
             String name = storage.getData(null);

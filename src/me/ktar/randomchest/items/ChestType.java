@@ -17,7 +17,7 @@ public class ChestType {
 	public ChestType(int minItems, int maxItems, String name) {
 		this.items = new RandomCollection<>(RandomUtil.random());
 		this.minItems = minItems;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.maxItems = maxItems;
 	}
 

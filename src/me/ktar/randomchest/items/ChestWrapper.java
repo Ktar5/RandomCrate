@@ -1,10 +1,12 @@
 package me.ktar.randomchest.items;
 
+import me.ktar.randomchest.RandomChest;
 import me.ktar.randomchest.utils.ChestUtil;
 import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class ChestWrapper {
 
@@ -19,7 +21,12 @@ public class ChestWrapper {
 		this.type = type;
         this.location = location;
 		inUse = null;
+        location.getBlock().setMetadata("ktarrandomchest", new FixedMetadataValue(RandomChest.getInstance(), true));
 	}
+
+    public ChestType getType(){
+        return type;
+    }
 
 	public boolean getInUse(){
 		return inUse != null;
@@ -34,15 +41,15 @@ public class ChestWrapper {
 	}
 
     public void use(Player player){
-        this.inUse = player;
-        cycleItems();
-        ItemStack[] items = this.type.getRandomItems();
-        if(!player.isOnline()){inUse = null; return;}
-        if(InventoryUtil.howManyFreeSpaces(player) < items.length){
+        this.inUse = player; //make the chest become in use
+        cycleItems(); //make fancy display to the player
+        ItemStack[] items = this.type.getRandomItems(); //generate the items that are going to be given
+        if(!player.isOnline()){inUse = null; return;} //make sure player is still online
+        if(InventoryUtil.howManyFreeSpaces(player) < items.length){//make sure they have enough space in their inventory
             player.sendMessage("Your inventory is too full");
             inUse = null;
-        }else {
-            player.getInventory().addItem(items);
+        }else{
+            player.getInventory().addItem(items); //add items if player has enough space
             player.updateInventory();
             ChestUtil.changeChestState(location, false, player);
         }

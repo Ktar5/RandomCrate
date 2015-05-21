@@ -26,22 +26,31 @@ public class Loader {
     }
 
     public static void removeChestWrapper(Location location){
-        if(chests.containsKey(location))
+        if(chests.containsKey(location)) {
             chests.remove(location);
+            save();
+        }
     }
 
     public static void addChest(Block block, ChestType type){
-        chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
+        if(!chests.containsKey(block.getLocation())) {
+            chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
+            save();
+        }
     }
 
-    public void load(){
+    public static ChestType getChestType(String name){
+        return types.get(name.toUpperCase());
+    }
+
+    public static void load(){
         chests.clear();
         types.clear();
 		messages.clear();
 		loadChests();
     }
 
-	private void loadChests(){
+	private static void loadChests(){
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
         for(String type : config.getKeys(false)){
@@ -50,15 +59,15 @@ public class Loader {
         }
 	}
 
-	private Location stringToLoc(String input){
-		String[] worldxyz = input.split(",");
+	private static Location stringToLoc(String input){
+		String[] worldxyz = input.split("|");
 		return new Location(Bukkit.getWorld(worldxyz[0]),
 				Double.valueOf(worldxyz[1]),
 				Double.valueOf(worldxyz[2]),
 				Double.valueOf(worldxyz[3]));
 	}
 
-    private Map<String, ChestType> loadChestTypes(){
+    private static Map<String, ChestType> loadChestTypes(){
 		Map<String, ItemFactory> items = loadItems();
 		FileConfiguration config = RandomChest.chesttypes.getConfig();
 		for(String name : config.getKeys(false)){
@@ -71,7 +80,7 @@ public class Loader {
 		return types;
 	}
 
-    private Map<String, ItemFactory> loadItems(){
+    private static Map<String, ItemFactory> loadItems(){
 		Map<String, ItemFactory> items = new HashMap<>();
 		FileConfiguration config = RandomChest.items.getConfig();
 		for(String name : config.getKeys(false)){
@@ -85,8 +94,16 @@ public class Loader {
 		return items;
 	}
 
-	public static void unload(){
+	public static void save(){
 		for(String string : RandomChest.chests.getConfig().getKeys(false))
 			RandomChest.chests.set(string, null);
+        for(Location location : chests.keySet()){
+            String key = location.getWorld().getName()+"|"
+                    +location.getBlockX()+"|"
+                    +location.getBlockY()+"|"
+                    +location.getBlockZ();
+            RandomChest.chests.set(key, chests.get(location).getType().getName());
+        }
+        RandomChest.chests.saveConfig();
 	}
 }
