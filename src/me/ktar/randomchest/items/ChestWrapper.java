@@ -1,6 +1,7 @@
 package me.ktar.randomchest.items;
 
 import me.ktar.randomchest.RandomChest;
+import me.ktar.randomchest.listeners.LogOffListener;
 import me.ktar.randomchest.utils.ChestUtil;
 import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.Location;
@@ -50,8 +51,9 @@ public class ChestWrapper {
             inUse = null;
         }else{
             player.getInventory().addItem(items); //add items if player has enough space
-            player.updateInventory();
-            ChestUtil.changeChestState(location, false, player);
+            player.updateInventory();//give player items
+            ChestUtil.changeChestState(location, false, player);//close the chest
+            LogOffListener.removeIfIn(player);
         }
     }
 

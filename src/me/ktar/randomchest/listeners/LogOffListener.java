@@ -24,4 +24,9 @@ public class LogOffListener implements Listener {
             keys.remove(event.getPlayer());
         }
     }
+
+    public static void removeIfIn(Player player){
+        if(keys.containsKey(player))
+            keys.remove(player);
+    }
 }
