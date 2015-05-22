@@ -21,10 +21,10 @@ public class RandomChest extends JavaPlugin{
 
 	@Override
 	public void onEnable(){
-		chests = new CustomConfig(getDataFolder(), "chests");
-		items = new CustomConfig(getDataFolder(), "items");
-		messages = new CustomConfig(getDataFolder(), "messages");
-		chesttypes = new CustomConfig(getDataFolder(), "chesttypes");
+		chests = new CustomConfig(getDataFolder(), "chests.yml");
+		items = new CustomConfig(getDataFolder(), "items.yml");
+		messages = new CustomConfig(getDataFolder(), "messages.yml");
+		chesttypes = new CustomConfig(getDataFolder(), "chesttypes.yml");
 
         Loader.load();
 

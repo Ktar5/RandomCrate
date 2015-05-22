@@ -1,9 +1,8 @@
 package me.ktar.randomchest.utils;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.ChatColor;
+
+import java.util.List;
 
 public class StringUtil {
 
@@ -25,7 +24,8 @@ public class StringUtil {
 	 * Color a list..
 	 */
 	public static List<String> colorList(List<String> inputs) {
-		inputs.stream().forEachOrdered(StringUtil::colorString);
+        for(int i = 0 ; i < inputs.size() ; i++)
+            inputs.set(i,colorString(inputs.get(i)));
 		return inputs;
 	}
 
@@ -33,7 +33,8 @@ public class StringUtil {
 	 * Color us some strings matey!
 	 */
 	public static String[] colorArray(String[] inputs) {
-		Arrays.stream(inputs).forEachOrdered(StringUtil::colorString);
+        for(int i = 0 ; i < inputs.length ; i++)
+            inputs[i] = colorString(inputs[i]);
 		return inputs;
 	}
 

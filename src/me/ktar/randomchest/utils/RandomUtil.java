@@ -11,8 +11,6 @@ public class RandomUtil {
 	 * @return re-seeded ThreadLocalRandom instance
 	 */
 	public static ThreadLocalRandom random() {
-		ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
-		threadLocalRandom.setSeed(System.nanoTime());
-		return threadLocalRandom;
+		return ThreadLocalRandom.current();
 	}
 }

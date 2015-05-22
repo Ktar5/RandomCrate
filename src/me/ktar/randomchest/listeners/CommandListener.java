@@ -13,6 +13,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 /**
  * Created by Carter on 5/19/2015.
  */
@@ -20,81 +22,104 @@ public class CommandListener implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player){
-            Player player = (Player) sender;
-            switch(args.length){
-                case 0:
-                    if(!player.hasPermission("randomchest.help")){player.sendMessage("You don't have permission for this!");return false;}
-                    displayHelp(player);
-                    break;
-                case 1:
-                    switch(args[0].toLowerCase()){
-                        case "delete":
-                        case "d":
-                            if(!player.hasPermission("randomchest.delete")){player.sendMessage("You don't have permission for this!");return false;}
-                            if(!deleteChest(player))
-                                player.sendMessage("You cannot delete this, because it isn't a randomchest :(");
-                            else
-                            player.sendMessage("..deleted");
-                            break;
-                        case "fuck":
-                        case "force":
-                        case "use":
-                            if(!player.hasPermission("randomchest.force")){player.sendMessage("You don't have permission for this!");return false;}
-                            if(!forceUseChestKey(player))
-                                player.sendMessage("You cannot force use that chest/block :(");
-                            else
-                                player.sendMessage("..used");
-                            break;
-                        case "reload":
-                        case "r":
-                            if(!player.hasPermission("randomchest.reload")){player.sendMessage("You don't have permission for this!");return false;}
-                            Loader.load();
-                            player.sendMessage("Successfully reloaded");
-                            break;
-                        default:
-                            player.sendMessage("That command does not exist :(");
-                    }break;
-                case 2:
-                    switch(args[0].toLowerCase()){
-                        case "create":
-                        case "c":
-                            if(!player.hasPermission("randomchest.create")){player.sendMessage("You don't have permission for this!");return false;}
-                            if(Loader.getChestType(args[1].toUpperCase()) != null)
-                                if(!createChest(player, Loader.getChestType(args[1].toUpperCase())))
-                                    player.sendMessage("That isn't a chest!! Silly goose.");
-                                else
-                                    player.sendMessage("..created");
-                            break;
-                        default:
-                            player.sendMessage("That command does not exist :(");
-                            break;
-                    }break;
-                case 3:
-                    switch(args[0].toLowerCase()){
-                        case "give":
-                        case "g":
-                            if(!player.hasPermission("randomchest.give")){player.sendMessage("You don't have permission for this!");return false;}
-                            if(Loader.getChestType(args[2].toUpperCase()) != null) {
-                                Player given = Bukkit.getServer().getPlayer(args[1]);
-                                if (given == null) {
-                                    player.sendMessage("Player isn't online :(");
+        if(sender instanceof Player) {
+            if (command.getName().equalsIgnoreCase("rc")) {
+                Player player = (Player) sender;
+                switch (args.length) {
+                    case 0:
+                        if (!player.hasPermission("randomchest.help")) {
+                            player.sendMessage("You don't have permission for this!");
+                            return false;
+                        }
+                        displayHelp(player);
+                        break;
+                    case 1:
+                        switch (args[0].toLowerCase()) {
+                            case "delete":
+                            case "d":
+                                if (!player.hasPermission("randomchest.delete")) {
+                                    player.sendMessage("You don't have permission for this!");
                                     return false;
-                                }else if (!KeyHandler.giveKey(given, Loader.getChestType(args[2])))
-                                    player.sendMessage("something.. went... wrong? :(");
+                                }
+                                if (!deleteChest(player))
+                                    player.sendMessage("You cannot delete this, because it isn't a randomchest :(");
                                 else
-                                    player.sendMessage("..given");
-                            }else{
-                                player.sendMessage("That type of chest doesn't exist :(");
-                            }
-                            break;
-                        default:
-                            player.sendMessage("That command does not exist :(");
-                            break;
-                    }
-                default:
-                    player.sendMessage("Too many arguments :(");
-                    break;
+                                    player.sendMessage("..deleted");
+                                break;
+                            case "fuck":
+                            case "force":
+                            case "use":
+                                if (!player.hasPermission("randomchest.force")) {
+                                    player.sendMessage("You don't have permission for this!");
+                                    return false;
+                                }
+                                if (!forceUseChestKey(player))
+                                    player.sendMessage("You cannot force use that chest/block :(");
+                                else
+                                    player.sendMessage("..used");
+                                break;
+                            case "reload":
+                            case "r":
+                                if (!player.hasPermission("randomchest.reload")) {
+                                    player.sendMessage("You don't have permission for this!");
+                                    return false;
+                                }
+                                Loader.load();
+                                player.sendMessage("Successfully reloaded");
+                                break;
+                            default:
+                                player.sendMessage("That command does not exist :(");
+                        }
+                        break;
+                    case 2:
+                        switch (args[0].toLowerCase()) {
+                            case "create":
+                            case "c":
+                                if (!player.hasPermission("randomchest.create")) {
+                                    player.sendMessage("You don't have permission for this!");
+                                    return false;
+                                }
+                                if (Loader.getChestType(args[1].toUpperCase()) != null)
+                                    if (!createChest(player, Loader.getChestType(args[1].toUpperCase())))
+                                        player.sendMessage("That isn't a chest!! Silly goose.");
+                                    else
+                                        player.sendMessage("..created");
+                                break;
+                            default:
+                                player.sendMessage("That command does not exist :(");
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (args[0].toLowerCase()) {
+                            case "give":
+                            case "g":
+                                if (!player.hasPermission("randomchest.give")) {
+                                    player.sendMessage("You don't have permission for this!");
+                                    return false;
+                                }
+                                if (Loader.getChestType(args[2].toUpperCase()) != null) {
+                                    Player given = Bukkit.getServer().getPlayer(args[1]);
+                                    player.sendMessage("Giving..");
+                                    if (given == null) {
+                                        player.sendMessage("Player isn't online :(");
+                                        return false;
+                                    } else if (!KeyHandler.giveKey(given, Loader.getChestType(args[2])))
+                                        player.sendMessage("something.. went... wrong? :(");
+                                    else
+                                        player.sendMessage("..given");
+                                } else {
+                                    player.sendMessage("That type of chest doesn't exist :(");
+                                }
+                                break;
+                            default:
+                                player.sendMessage("That command does not exist :(");
+                                break;
+                        }
+                    default:
+                        player.sendMessage("Too many arguments :(");
+                        break;
+                }
             }
         }
         return false;
@@ -104,7 +129,7 @@ public class CommandListener implements CommandExecutor {
         player.sendMessage(StringUtil.colorArray(new String[]{
                 "",
                 "",
-                "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=[Random Chest]=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-",
+                "=-=-=-=-=-=-[Random Chest]=-=-=-=-=-=-",
                 "",
                 "&7/rc &3(&fcreate &7| &fc&3) &3{type} &7- turns a chest you're looking at into a chest of type {type}",
                 "&7/rc &3(&fdelete &7| &fd&3) &7- removes the randomchest that you're looking at, if any",
@@ -114,7 +139,7 @@ public class CommandListener implements CommandExecutor {
                 "",
                 "randomchest.create | delete | force | reload | give | help - permission nodes &r",
                 "",
-                "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=[Random Chest]=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+                "=-=-=-=-=-=-[Random Chest]=-=-=-=-=-=-"
         }));
     }
 
@@ -161,7 +186,7 @@ public class CommandListener implements CommandExecutor {
     }
 
     public Block getLookingAt(Player player){
-        return player.getTargetBlock(null, 10);
+        return player.getTargetBlock((Set<Material>) null, 10);
     }
 
 }

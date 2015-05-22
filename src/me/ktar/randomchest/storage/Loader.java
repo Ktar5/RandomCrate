@@ -53,9 +53,8 @@ public class Loader {
 	private static void loadChests(){
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
-        for(String type : config.getKeys(false)){
-            for(String locationString : config.getStringList(type))
-                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(type.toUpperCase()), stringToLoc(locationString)));
+            for(String locationString : config.getKeys(true)){
+                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), stringToLoc(locationString)));
         }
 	}
 

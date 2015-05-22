@@ -1,8 +1,26 @@
-name:
-  title:
-  material:
-  amount:
-  meta:
+diamond:
+  title: "this is a diamond"
+  material: DIAMOND
+  amount: 5
+  meta: 0
+  lore:
+    - lore
+    - lore
+    - lore
+noobitem:
+  title: "this is a noobitems"
+  material: DIAMOND
+  amount: 5
+  meta: 0
+  lore:
+    - lore
+    - lore
+    - lore
+hoe:
+  title: "this is a hoeeee"
+  material: DIAMOND
+  amount: 5
+  meta: 0
   lore:
     - lore
     - lore

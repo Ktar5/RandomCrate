@@ -1,7 +1,7 @@
-type:
-  min:
-  max:
+elitechest:
+  min: 5
+  max: 10
   items:
-    item: per
-    item: num
-    item: num
+    diamond: 1
+    hoe: 2
+    noobitem: 3

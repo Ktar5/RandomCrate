@@ -43,6 +43,7 @@ public class ChestWrapper {
 
     public void use(Player player){
         this.inUse = player; //make the chest become in use
+        ChestUtil.changeChestState(getLocation(), true, player); //open the chest animation
         cycleItems(); //make fancy display to the player
         ItemStack[] items = this.type.getRandomItems(); //generate the items that are going to be given
         if(!player.isOnline()){inUse = null; return;} //make sure player is still online
@@ -54,6 +55,8 @@ public class ChestWrapper {
             player.updateInventory();//give player items
             ChestUtil.changeChestState(location, false, player);//close the chest
             LogOffListener.removeIfIn(player);
+            this.inUse = null;
+            player.sendMessage("Congratulations! You got " + items.length + " items!");
         }
     }
 
