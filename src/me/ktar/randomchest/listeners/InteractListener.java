@@ -13,18 +13,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class InteractListener implements Listener {
 
-    /*@EventHandler
-    public void onPlayerInteract(PlayerInteractEntityEvent event){
-        if(event.getRightClicked().getUniqueId().equals(getUuid()))
-            event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent event){
-        if(event.getEntity().getUniqueId().equals(getUuid()))
-            event.setCancelled(true);
-    }*/
-
+    /** I'd say this looks much pretier :) */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock().hasMetadata("ktarrandomchest")) {
@@ -35,7 +24,10 @@ public class InteractListener implements Listener {
                 if (KeyHandler.isKey(key, chest.getType()) && !chest.getInUse()) { //check if it is a key
                     if (!chest.getInUse()) {
                         LogOffListener.keys.put(event.getPlayer(), key); //add it to the listener
-                        event.getPlayer().getItemInHand().setAmount(key.getAmount() - 1);
+                        if(key.getAmount() > 1){
+                            event.getPlayer().getItemInHand().setAmount(key.getAmount() - 1);
+                        }else
+                            event.getPlayer().setItemInHand(null);
                         chest.use(event.getPlayer()); //Tell the chest to use
                     }else event.getPlayer().sendMessage("This chest in in use! Sorry");
                 }else event.getPlayer().sendMessage("That isn't a key, silly.");

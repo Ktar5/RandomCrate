@@ -359,7 +359,7 @@ public class NbtFactory {
         }
     }
 
-    private String getPackageName() {
+    public static String getPackageName() {
         Server server = Bukkit.getServer();
         String name = server != null ? server.getClass().getPackage().getName() : null;
 
@@ -367,7 +367,7 @@ public class NbtFactory {
             return name;
         } else {
             // Fallback
-            return "org.bukkit.craftbukkit.v1_7_R3";
+            return "org.bukkit.craftbukkit.v1_8_R3";
         }
     }
 

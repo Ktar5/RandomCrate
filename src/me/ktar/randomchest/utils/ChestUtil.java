@@ -1,10 +1,8 @@
 package me.ktar.randomchest.utils;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutBlockAction;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
@@ -20,7 +18,7 @@ public class ChestUtil {
             Method method = CraftBlock.class.getDeclaredMethod("getNMSBlock");
             method.setAccessible(true);
             Block block = (Block) method.invoke(loc.getBlock());
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutBlockAction(l.getBlockX(), l.getBlockY(), l.getBlockZ(), block, 1, 54));
+            //((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutBlockAction(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), block, 1, 54));
         } catch (Exception ec) {
             ec.printStackTrace();
         }

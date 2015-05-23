@@ -35,7 +35,11 @@ public class Loader {
     public static void addChest(Block block, ChestType type){
         if(!chests.containsKey(block.getLocation())) {
             chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
-            save();
+            String key = block.getWorld().getName()+"|"
+                    +block.getX()+"|"
+                    +block.getY()+"|"
+                    +block.getZ();
+            RandomChest.chests.set(key, chests.get(block.getLocation()).getType().getName(), true);
         }
     }
 
@@ -54,7 +58,8 @@ public class Loader {
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
             for(String locationString : config.getKeys(true)){
-                chests.put(stringToLoc(locationString), new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), stringToLoc(locationString)));
+                Location loc = stringToLoc(locationString);
+                chests.put(loc, new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), loc));
         }
 	}
 
@@ -84,18 +89,20 @@ public class Loader {
 		FileConfiguration config = RandomChest.items.getConfig();
 		for(String name : config.getKeys(false)){
 			ConfigurationSection itemSection = config.getConfigurationSection(name);
-			items.put(name.toUpperCase(), new ItemFactory(Material.valueOf(itemSection.getString("material").toUpperCase()))
-					.setDisplayName(itemSection.getString("title"))
-					.setAmount(itemSection.getInt("amount"))
-					.setDurability(itemSection.getInt("meta"))
+			items.put(name.toUpperCase(), new ItemFactory(Material.valueOf(itemSection.getString("material", "DIRT").toUpperCase()))
+					.setDisplayName(itemSection.getString("title", null))
+					.setAmount(itemSection.getInt("amount", 1))
+					.setDurability(itemSection.getInt("meta", 0))
 					.setLore(itemSection.getStringList("lore")));
 		}
 		return items;
 	}
 
 	public static void save(){
-		for(String string : RandomChest.chests.getConfig().getKeys(false))
-			RandomChest.chests.set(string, null);
+		for(String string : RandomChest.chests.getConfig().getKeys(false)) {
+            RandomChest.chests.set(string, null);
+            RandomChest.chests.saveConfig();
+        }
         for(Location location : chests.keySet()){
             String key = location.getWorld().getName()+"|"
                     +location.getBlockX()+"|"
