@@ -79,7 +79,7 @@ public class CommandListener implements CommandExecutor {
                                     player.sendMessage("You don't have permission for this!");
                                     return false;
                                 }
-                                if(Loader.getChestWrapper(this.getLookingAt(player)) != null){
+                                if(Loader.getChestWrapper(this.getLookingAt(player).getLocation()) != null){
                                     player.sendMessage("Already have this chest! Silly.");
                                     return false;
                                 }
@@ -178,8 +178,8 @@ public class CommandListener implements CommandExecutor {
     }
 
     public ChestWrapper isLookingAtRandomChest(Player player){
-        if(Loader.getChestWrapper(getLookingAt(player)) != null) {
-            return Loader.getChestWrapper(getLookingAt(player));
+        if(Loader.getChestWrapper(getLookingAt(player).getLocation()) != null) {
+            return Loader.getChestWrapper(getLookingAt(player).getLocation());
         }else{
             return null;
         }

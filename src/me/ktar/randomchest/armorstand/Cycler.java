@@ -1,6 +1,7 @@
 package me.ktar.randomchest.armorstand;
 
 import me.ktar.randomchest.items.ChestWrapper;
+import me.ktar.randomchest.utils.RandomUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.Plugin;
@@ -17,6 +18,10 @@ public class Cycler implements Runnable{
     private final List<Material> mats;
     private final ArmorStand stand;
 
+    private int iterations = 0;
+    private int spot = 0;
+    private int last = 0;
+
     private int taskId;
 
     public Cycler(Plugin plugin, ChestWrapper wrapper) {
@@ -27,19 +32,27 @@ public class Cycler implements Runnable{
 
     public void start() {
         long delay_before_starting = 10;
-        long delay_between_restarting = 10;
+        long delay_between_restarting = 2;
+        iterations = 10;
         // synchronous - thread safe
         taskId = plugin.getServer().getScheduler().runTaskTimer(plugin, this, delay_before_starting, delay_between_restarting).getTaskId();
     }
 
     @Override
     public void run() {
-        StandHandler.cycle(mats.get(0), stand);
-        mats.remove(0);
 
-        if(mats.isEmpty()){
-            plugin.getServer().getScheduler().cancelTask(taskId);
+        if(spot == 0){
+            spot = mats.size();
+            iterations--;
+            if(iterations < 0) plugin.getServer().getScheduler().cancelTask(taskId);
         }
+
+        spot--;
+        int next = 1;
+        while(next == last){
+            next = RandomUtil.random().nextInt(mats.size());
+        }
+        StandHandler.cycle(mats.get(next), stand);
     }
 
 

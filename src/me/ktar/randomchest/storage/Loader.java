@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Loader {
 
@@ -21,8 +22,8 @@ public class Loader {
     private static final Map<String, ChestType> types = new HashMap<>();
 
     //---------------------------CHESTS STUFF----------------------------
-    public static ChestWrapper getChestWrapper(Block block){
-        return chests.get(block.getLocation());
+    public static ChestWrapper getChestWrapper(Location location){
+        return chests.get(location);
     }
 
     public static void removeChestWrapper(Location location){
@@ -53,6 +54,10 @@ public class Loader {
         chests.clear();
         types.clear();
 		messages.clear();
+        RandomChest.chesttypes.reloadConfig();
+        RandomChest.items.reloadConfig();
+        RandomChest.chests.reloadConfig();
+        RandomChest.messages.reloadConfig();
 		loadChests();
     }
 
@@ -85,7 +90,7 @@ public class Loader {
         FileConfiguration config = RandomChest.chests.getConfig();
             for(String locationString : config.getKeys(true)){
                 Location loc = stringToLoc(locationString);
-                chests.put(loc, new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), loc));
+                chests.put(loc.getBlock().getLocation(), new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), loc.getBlock().getLocation()));
         }
 	}
 
@@ -123,7 +128,7 @@ public class Loader {
         for(String s : worldxyz){
             System.out.println(s);
         }
-        return new Location(Bukkit.getWorld(worldxyz[0]),
+        return new Location(Bukkit.getWorld(UUID.fromString(worldxyz[0])),
                 Integer.valueOf(worldxyz[1]),
                 Integer.valueOf(worldxyz[2]),
                 Integer.valueOf(worldxyz[3]));

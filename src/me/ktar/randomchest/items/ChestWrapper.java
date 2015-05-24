@@ -4,7 +4,6 @@ import me.ktar.randomchest.RandomChest;
 import me.ktar.randomchest.armorstand.Cycler;
 import me.ktar.randomchest.armorstand.StandHandler;
 import me.ktar.randomchest.listeners.LogOffListener;
-import me.ktar.randomchest.utils.ChestUtil;
 import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -51,7 +50,7 @@ public class ChestWrapper {
     public void use(Player player){
         this.inUse = player; //make the chest become in use
 
-        ChestUtil.changeChestState(getLocation(), true, player); //open the chest animation
+        //ChestUtil.changeChestState(getLocation(), true, player); //open the chest animation
 
         cycleItems(); //make fancy display to the player
 
@@ -68,7 +67,7 @@ public class ChestWrapper {
             player.getInventory().addItem(items); //add items if player has enough space
             player.updateInventory();//give player items
 
-            ChestUtil.changeChestState(location, false, player);//close the chest
+            //ChestUtil.changeChestState(location, false, player);//close the chest
 
             LogOffListener.removeIfIn(player);
 

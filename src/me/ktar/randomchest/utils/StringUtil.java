@@ -10,7 +10,7 @@ public class StringUtil {
 	 * Quickly color a string
 	 */
 	public static String colorString(String input) {
-		return ChatColor.translateAlternateColorCodes('&', input);
+		return input != null ? ChatColor.translateAlternateColorCodes('&', input) : null;
 	}
 
 	/**

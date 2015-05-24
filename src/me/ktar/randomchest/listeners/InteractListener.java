@@ -3,6 +3,7 @@ package me.ktar.randomchest.listeners;
 import me.ktar.randomchest.items.ChestWrapper;
 import me.ktar.randomchest.keys.KeyHandler;
 import me.ktar.randomchest.storage.Loader;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,10 +20,10 @@ public class InteractListener implements Listener {
         if(event.hasBlock()){
             if (event.getClickedBlock().hasMetadata("ktarrandomchest")) {
                 event.setCancelled(true); //cancel the chest inventory opening
-                ChestWrapper chest = Loader.getChestWrapper(event.getClickedBlock());//get the wrapper associated with this
-                if (event.getPlayer().getItemInHand() != null) {//check its not air in their hand
+                ChestWrapper chest = Loader.getChestWrapper(event.getClickedBlock().getLocation());//get the wrapper associated with this
+                if (event.getPlayer().getItemInHand() != null && !event.getPlayer().getItemInHand().getType().equals(Material.AIR) ) {//check its not air in their hand
                     ItemStack key = event.getPlayer().getItemInHand();
-                    if (KeyHandler.isKey(key, chest.getType()) && !chest.getInUse()) { //check if it is a key
+                    if (KeyHandler.isKey(key, chest.getType())) { //check if it is a key
                         if (!chest.getInUse()) {
                             LogOffListener.keys.put(event.getPlayer(), key); //add it to the listener
                             if (key.getAmount() > 1) {

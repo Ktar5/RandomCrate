@@ -35,7 +35,7 @@ public class RandomChest extends JavaPlugin{
 
 	@Override
 	public void onDisable(){
-        Loader.save();
+        Loader.unload();
 		instance = null;
 	}
 
