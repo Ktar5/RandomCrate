@@ -6,6 +6,7 @@ import me.ktar.randomchest.storage.Loader;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,6 +36,13 @@ public class InteractListener implements Listener {
                     } else event.getPlayer().sendMessage("That isn't a key, silly.");
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void playerRapeArmorStand(PlayerInteractAtEntityEvent event){
+        if(event.getRightClicked().hasMetadata("ktarrandomchest")){
+            event.setCancelled(true);
         }
     }
 

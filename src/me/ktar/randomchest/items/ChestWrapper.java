@@ -36,6 +36,7 @@ public class ChestWrapper {
 
     public void unloadChest(){
         location.getBlock().removeMetadata("ktarrandomchest", RandomChest.getInstance());
+        stand.removeMetadata("ktarrandomchest", RandomChest.getInstance());
         stand.remove();
     }
 

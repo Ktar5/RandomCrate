@@ -1,9 +1,11 @@
 package me.ktar.randomchest.armorstand;
 
+import me.ktar.randomchest.RandomChest;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.EulerAngle;
 
 /**
@@ -26,16 +28,18 @@ public class StandHandler {
     }
 
     public static ArmorStand spawnStand(Location location){
-        ArmorStand stand = location.getWorld().spawn(location.add(0.5, 0.5, 0.5), ArmorStand.class);
+        Location loc = location.add(0.5,0.5,0.5);
+        //loc.setYaw(90);
+        ArmorStand stand = location.getWorld().spawn(loc, ArmorStand.class);
         stand.setArms(true);
         stand.setBasePlate(false);
         stand.setSmall(true);
         stand.setRightArmPose(new EulerAngle(Math.toRadians(0), Math.toRadians(250), Math.toRadians(270)));
-        stand.setItemInHand(new ItemStack(Material.DIAMOND));
         stand.setCanPickupItems(false);
         stand.setGravity(false);
         //stand.setHelmet(new ItemStack(Material.BEDROCK));
-        stand.setVisible(true);
+        stand.setVisible(false);
+        stand.setMetadata("ktarrandomchest", new FixedMetadataValue(RandomChest.getInstance(), true));
         return stand;
     }
 

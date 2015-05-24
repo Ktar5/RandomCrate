@@ -62,9 +62,7 @@ public class Loader {
     }
 
     public static void unload(){
-        for(ChestWrapper wrap : chests.values()){
-            wrap.unloadChest();
-        }
+        chests.values().forEach(me.ktar.randomchest.items.ChestWrapper::unloadChest);
         save();
     }
 
