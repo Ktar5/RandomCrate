@@ -20,7 +20,7 @@ public class Loader {
 	private static final Map<String, String> messages = new HashMap<>();
     private static final Map<String, ChestType> types = new HashMap<>();
 
-
+    //---------------------------CHESTS STUFF----------------------------
     public static ChestWrapper getChestWrapper(Block block){
         return chests.get(block.getLocation());
     }
@@ -34,7 +34,7 @@ public class Loader {
 
     public static void addChest(Block block, ChestType type){
         if(!chests.containsKey(block.getLocation())) {
-            chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation(), stand));
+            chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
             String key = block.getWorld().getUID().toString()+"^"
                     +block.getX()+"^"
                     +block.getY()+"^"
@@ -47,6 +47,8 @@ public class Loader {
         return types.get(name.toUpperCase());
     }
 
+
+    //---------------------------LOADERS AND UNLOADERS AND SAVERS----------------------------
     public static void load(){
         chests.clear();
         types.clear();
@@ -54,6 +56,30 @@ public class Loader {
 		loadChests();
     }
 
+    public static void unload(){
+        for(ChestWrapper wrap : chests.values()){
+            wrap.unloadChest();
+        }
+        save();
+    }
+
+    private static void save(){
+        for(String string : RandomChest.chests.getConfig().getKeys(false)) {
+            RandomChest.chests.set(string, null);
+            RandomChest.chests.saveConfig();
+        }
+        for(Location location : chests.keySet()){
+            String key = location.getWorld().getUID().toString()+"^"
+                    +location.getBlockX()+"^"
+                    +location.getBlockY()+"^"
+                    +location.getBlockZ();
+            RandomChest.chests.set(key, chests.get(location).getType().getName());
+        }
+        RandomChest.chests.saveConfig();
+    }
+
+
+    //---------------------------WRAPPER MAKERS----------------------------
 	private static void loadChests(){
         Map<String, ChestType> types = loadChestTypes();
         FileConfiguration config = RandomChest.chests.getConfig();
@@ -61,17 +87,6 @@ public class Loader {
                 Location loc = stringToLoc(locationString);
                 chests.put(loc, new ChestWrapper(types.get(config.getString(locationString).toUpperCase()), loc));
         }
-	}
-
-	private static Location stringToLoc(String input){
-		String[] worldxyz = input.split("\\^");
-        for(String s : worldxyz){
-            System.out.println(s);
-        }
-		return new Location(Bukkit.getWorld(worldxyz[0]),
-				Integer.valueOf(worldxyz[1]),
-                Integer.valueOf(worldxyz[2]),
-                Integer.valueOf(worldxyz[3]));
 	}
 
     private static Map<String, ChestType> loadChestTypes(){
@@ -101,18 +116,17 @@ public class Loader {
 		return items;
 	}
 
-	public static void save(){
-		for(String string : RandomChest.chests.getConfig().getKeys(false)) {
-            RandomChest.chests.set(string, null);
-            RandomChest.chests.saveConfig();
+
+    //---------------------------UTIL SHIT----------------------------
+    private static Location stringToLoc(String input){
+        String[] worldxyz = input.split("\\^");
+        for(String s : worldxyz){
+            System.out.println(s);
         }
-        for(Location location : chests.keySet()){
-            String key = location.getWorld().getUID().toString()+"^"
-                    +location.getBlockX()+"^"
-                    +location.getBlockY()+"^"
-                    +location.getBlockZ();
-            RandomChest.chests.set(key, chests.get(location).getType().getName());
-        }
-        RandomChest.chests.saveConfig();
-	}
+        return new Location(Bukkit.getWorld(worldxyz[0]),
+                Integer.valueOf(worldxyz[1]),
+                Integer.valueOf(worldxyz[2]),
+                Integer.valueOf(worldxyz[3]));
+    }
+
 }

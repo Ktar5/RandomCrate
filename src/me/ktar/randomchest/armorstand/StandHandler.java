@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class StandHandler {
 
-    public static void cycle(Material mat, ArmorStand stand){
+    protected static void cycle(Material mat, ArmorStand stand){
         if(stand.getItemInHand() != null)
             stand.setItemInHand(null);
 
