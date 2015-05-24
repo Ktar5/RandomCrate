@@ -3,10 +3,12 @@ package me.ktar.randomchest.items;
 import me.ktar.randomchest.utils.ItemFactory;
 import me.ktar.randomchest.utils.RandomCollection;
 import me.ktar.randomchest.utils.RandomUtil;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChestType {
 
@@ -33,6 +35,10 @@ public class ChestType {
 			items--;
 		}
 		return itemz.toArray(new ItemStack[itemz.size()]);
+	}
+
+	public List<Material> getMaterials(){
+		return items.values().stream().map(fac -> fac.getItemStack().getType()).collect(Collectors.toList());
 	}
 
 	public void add(ItemFactory item, int chance){

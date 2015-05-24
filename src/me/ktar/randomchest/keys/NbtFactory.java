@@ -395,7 +395,7 @@ public class NbtFactory {
      * Construct a new NBT list of an unspecified type.
      * @return The NBT list.
      */
-    public static NbtList createList(Iterable<? extends Object> iterable) {
+    public static NbtList createList(Iterable<?> iterable) {
         NbtList list = get().new NbtList(
                 INSTANCE.createNbtTag(NbtType.TAG_LIST, null)
         );

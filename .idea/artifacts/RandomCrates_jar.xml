@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RandomCrates:jar">
+    <output-path>R:/newserver/plugins</output-path>
+    <root id="archive" name="RandomCratezz.jar">
+      <element id="module-output" name="RandomCratezz" />
+    </root>
+  </artifact>
+</component>

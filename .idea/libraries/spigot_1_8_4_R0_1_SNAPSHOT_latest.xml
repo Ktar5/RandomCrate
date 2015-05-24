@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="spigot-1.8.4-R0.1-SNAPSHOT-latest">
     <CLASSES>
-      <root url="jar://C:/SSD/Dropbox/Dropbox/Jars/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar!/" />
+      <root url="jar://$USER_HOME$/Dropbox/Jars/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://C:/SSD/Dropbox/Dropbox/Jars/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar!/" />
+      <root url="jar://$USER_HOME$/Dropbox/Jars/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar!/" />
     </SOURCES>
   </library>
 </component>

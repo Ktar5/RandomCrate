@@ -1,8 +1,6 @@
 package me.ktar.randomchest.utils;
 
-import java.util.NavigableMap;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -21,6 +19,10 @@ public class RandomCollection<E> {
         if (weight <= 0) return;
         total += weight;
         map.put(total, result);
+    }
+
+    public List<E> values(){
+        return new ArrayList<>(map.values());
     }
 
     public E next() {

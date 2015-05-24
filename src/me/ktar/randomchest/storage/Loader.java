@@ -34,10 +34,10 @@ public class Loader {
 
     public static void addChest(Block block, ChestType type){
         if(!chests.containsKey(block.getLocation())) {
-            chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation()));
-            String key = block.getWorld().getName()+"|"
-                    +block.getX()+"|"
-                    +block.getY()+"|"
+            chests.put(block.getLocation(), new ChestWrapper(type, block.getLocation(), stand));
+            String key = block.getWorld().getUID().toString()+"^"
+                    +block.getX()+"^"
+                    +block.getY()+"^"
                     +block.getZ();
             RandomChest.chests.set(key, chests.get(block.getLocation()).getType().getName(), true);
         }
@@ -64,11 +64,14 @@ public class Loader {
 	}
 
 	private static Location stringToLoc(String input){
-		String[] worldxyz = input.split("|");
+		String[] worldxyz = input.split("\\^");
+        for(String s : worldxyz){
+            System.out.println(s);
+        }
 		return new Location(Bukkit.getWorld(worldxyz[0]),
-				Double.valueOf(worldxyz[1]),
-				Double.valueOf(worldxyz[2]),
-				Double.valueOf(worldxyz[3]));
+				Integer.valueOf(worldxyz[1]),
+                Integer.valueOf(worldxyz[2]),
+                Integer.valueOf(worldxyz[3]));
 	}
 
     private static Map<String, ChestType> loadChestTypes(){
@@ -104,9 +107,9 @@ public class Loader {
             RandomChest.chests.saveConfig();
         }
         for(Location location : chests.keySet()){
-            String key = location.getWorld().getName()+"|"
-                    +location.getBlockX()+"|"
-                    +location.getBlockY()+"|"
+            String key = location.getWorld().getUID().toString()+"^"
+                    +location.getBlockX()+"^"
+                    +location.getBlockY()+"^"
                     +location.getBlockZ();
             RandomChest.chests.set(key, chests.get(location).getType().getName());
         }

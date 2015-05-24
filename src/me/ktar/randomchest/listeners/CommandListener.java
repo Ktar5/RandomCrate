@@ -79,6 +79,10 @@ public class CommandListener implements CommandExecutor {
                                     player.sendMessage("You don't have permission for this!");
                                     return false;
                                 }
+                                if(Loader.getChestWrapper(this.getLookingAt(player)) != null){
+                                    player.sendMessage("Already have this chest! Silly.");
+                                    return false;
+                                }
                                 if (Loader.getChestType(args[1].toUpperCase()) != null)
                                     if (!createChest(player, Loader.getChestType(args[1].toUpperCase())))
                                         player.sendMessage("That isn't a chest!! Silly goose.");

@@ -1,10 +1,13 @@
 package me.ktar.randomchest.items;
 
 import me.ktar.randomchest.RandomChest;
+import me.ktar.randomchest.armorstand.StandHandler;
 import me.ktar.randomchest.listeners.LogOffListener;
 import me.ktar.randomchest.utils.ChestUtil;
 import me.ktar.randomchest.utils.InventoryUtil;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -14,14 +17,15 @@ public class ChestWrapper {
 	private ChestType type;
 	private Player inUse;
     private Location location;
-    //private ArmorStand stand;
+    private ArmorStand stand;
 
     private static final int CYCLE_TICKS = 60;
 
 	public ChestWrapper(ChestType type, Location location){
 		this.type = type;
-        this.location = location;
-		inUse = null;
+        this.location = location.getBlock().getLocation();
+        stand = StandHandler.spawnStand(location);
+        inUse = null;
         location.getBlock().setMetadata("ktarrandomchest", new FixedMetadataValue(RandomChest.getInstance(), true));
 	}
 
@@ -32,6 +36,11 @@ public class ChestWrapper {
 	public boolean getInUse(){
 		return inUse != null;
 	}
+
+    public void unloadChest(){
+        location.getBlock().removeMetadata("ktarrandomchest", RandomChest.getInstance());
+        stand.remove();
+    }
 
 	public Player getUser(){
 		return inUse;
@@ -65,9 +74,7 @@ public class ChestWrapper {
     }
 
     private void cycleItems(){
-        /*
-        ......shhh
-         */
+        type.
     }
 
 
