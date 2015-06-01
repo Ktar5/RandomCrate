@@ -25,6 +25,14 @@ public class LogOffListener implements Listener {
         }
     }
 
+    public static void giveBackKey(Player player){
+        if(keys.containsKey(player)){
+            player.getInventory().addItem(keys.get(player));
+            keys.remove(player);
+            player.updateInventory();
+        }
+    }
+
     public static void removeIfIn(Player player){
         if(keys.containsKey(player))
             keys.remove(player);

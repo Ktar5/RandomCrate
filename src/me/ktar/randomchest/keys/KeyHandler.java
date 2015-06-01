@@ -31,7 +31,9 @@ public class KeyHandler {
         if(stack != null){
             AttributeStorage storage = AttributeStorage.newTarget(stack, ID);
             String name = storage.getData(null);
-            return name.equalsIgnoreCase(type.getName());
+            if(name != null) {
+                return name.equalsIgnoreCase(type.getName());
+            }
         }
         return false;
     }

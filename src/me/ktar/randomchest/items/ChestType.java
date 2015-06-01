@@ -27,7 +27,7 @@ public class ChestType {
 		return this.name;
 	}
 
-	protected ItemStack[] getRandomItems(){
+	public ItemStack[] getRandomItems(){
 		int items = RandomUtil.random().nextInt((maxItems - minItems) + 1) + minItems;
         List<ItemStack> itemz = new ArrayList<>();
         while(items > 0){
