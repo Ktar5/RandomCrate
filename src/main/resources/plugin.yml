@@ -1,0 +1,6 @@
+name: ${plugin.name}
+author: Ktar5
+version: ${project.version}
+main: ${plugin.mainClass}
+commands:
+  rc:
